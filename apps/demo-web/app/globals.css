@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07111f;
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel-strong: rgba(255, 255, 255, 0.1);
+  --fg: #f5f7fb;
+  --muted: #95a3bd;
+  --accent: #8fb4ff;
+  --accent-strong: #c7d7ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(88, 120, 194, 0.24), transparent 30%),
+    radial-gradient(circle at right, rgba(61, 96, 168, 0.18), transparent 25%),
+    var(--bg);
+  color: var(--fg);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.button:disabled {
+  opacity: 0.6;
+}
+
+.button-primary {
+  background: linear-gradient(135deg, rgba(143, 180, 255, 0.24), rgba(143, 180, 255, 0.12));
+  border-color: rgba(143, 180, 255, 0.4);
+}

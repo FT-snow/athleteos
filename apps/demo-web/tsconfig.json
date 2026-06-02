@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@formiq/types": ["./lib/formiq/types.ts"],
+      "@formiq/core": ["./lib/formiq/core.ts"],
+      "@formiq/runtime": ["./lib/formiq/runtime.ts"],
+      "@formiq/ui": ["./lib/formiq/ui.tsx"],
+      "@formiq/ai": ["./lib/formiq/ai.ts"],
+      "@formiq/storage": ["./lib/formiq/storage.ts"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

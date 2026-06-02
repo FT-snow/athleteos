@@ -1,0 +1,26 @@
+{
+  "name": "athlete-os",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "dev": "bun run dev:dashboard",
+    "dev:dashboard": "bun run --cwd apps/dashboard dev",
+    "dev:ml": "bun run --cwd services/ml-api dev",
+    "build": "for pkg in packages/*/ apps/*/; do (cd \"$pkg\" && [ -f package.json ] && bun run build 2>/dev/null) || true; done",
+    "typecheck": "for pkg in packages/*/ apps/*/; do if [ -f \"$pkg/tsconfig.json\" ]; then echo \"=== $pkg ===\"; (cd \"$pkg\" && ../../node_modules/.bin/tsc --noEmit) || exit 1; fi; done",
+    "lint": "for pkg in packages/*/ apps/*/; do (cd \"$pkg\" && [ -f package.json ] && bun run lint 2>/dev/null) || true; done",
+    "verify": "bun run typecheck && bun run build"
+  },
+  "trustedDependencies": [
+    "@react-three/fiber",
+    "esbuild",
+    "sharp"
+  ],
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

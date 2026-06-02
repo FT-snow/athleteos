@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.next/
+*.tsbuildinfo
+.env.local
+.env
+*.pyc
+__pycache__/
+*.egg-info/

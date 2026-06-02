@@ -1,0 +1,532 @@
+import { ExerciseBiomechanics, createCheckpointAngle } from '../../types';
+
+export const forwardDrive: ExerciseBiomechanics = {
+  id: "cricket-forward-drive",
+  name: "Forward Drive",
+  aliases: ["forward drive", "front foot drive", "cricket drive"],
+  category: "cricket",
+  description:
+    "The forward drive is a front-foot attacking shot played to a full-pitched delivery. It requires forward stride, high elbow, and controlled wrist work through the line of the ball.",
+  tags: ["cricket", "batting", "drive", "front-foot", "attacking"],
+  landmarks: [
+    "nose", "leftEar", "rightEar",
+    "leftShoulder", "rightShoulder",
+    "leftElbow", "rightElbow",
+    "leftWrist", "rightWrist",
+    "leftHip", "rightHip",
+    "leftKnee", "rightKnee",
+    "leftAnkle", "rightAnkle",
+    "leftHeel", "rightHeel",
+    "leftFootIndex", "rightFootIndex",
+  ],
+  checkpoints: [
+    {
+      id: "drive-front-knee-setup",
+      name: "Front Knee Flexion at Setup",
+      description:
+        "The front knee should be slightly bent (15-25° flexion) in the setup stance to allow quick weight transfer into the delivery stride.",
+      angle: createCheckpointAngle("leftKnee", "leftHip", "leftKnee", "leftAnkle"),
+      goodRange: [155, 168],
+      warningRange: [168, 175],
+      criticalRange: [175, 180],
+      side: "left",
+      phase: "Setup",
+      weight: 0.8,
+      cueGood: "Athletic flex — ready to stride forward",
+      cueWarning: "Front leg too straight — losing reactive power",
+      cueCritical: "Leg locked — cannot transfer weight explosively",
+    },
+    {
+      id: "drive-backlift-height",
+      name: "Backlift Height (Top Hand Position)",
+      description:
+        "The top hand lifts the bat to approximately shoulder height during the backlift, creating the arc for a controlled downswing.",
+      angle: createCheckpointAngle("leftShoulder", "leftElbow", "leftShoulder", "leftWrist"),
+      goodRange: [75, 100],
+      warningRange: [60, 75],
+      criticalRange: [0, 60],
+      side: "left",
+      phase: "Backlift",
+      weight: 0.75,
+      cueGood: "Bat lifted to shoulder height — good arc",
+      cueWarning: "Backlift too low — losing power potential",
+      cueCritical: "Minimal backlift — arm-only swing",
+    },
+    {
+      id: "drive-front-elbow-backlift",
+      name: "Front Elbow Height at Backlift",
+      description:
+        "The front elbow should be high (approximately 90°) at the top of the backlift, pointing towards the bowler as a hallmark of classical batting technique.",
+      angle: createCheckpointAngle("leftElbow", "leftShoulder", "leftElbow", "leftWrist"),
+      goodRange: [80, 105],
+      warningRange: [105, 130],
+      criticalRange: [130, 180],
+      side: "left",
+      phase: "Backlift",
+      weight: 0.85,
+      cueGood: "High elbow — textbook position",
+      cueWarning: "Elbow dropping — bat face opening too early",
+      cueCritical: "Elbow collapsed — losing control of bat face",
+    },
+    {
+      id: "drive-head-position",
+      name: "Head Position Over the Ball",
+      description:
+        "The head should be positioned over the front knee with eyes level, ensuring the batter is balanced and can see the ball clearly.",
+      angle: createCheckpointAngle("head", "leftKnee", "nose", "leftHip"),
+      goodRange: [105, 135],
+      warningRange: [85, 105],
+      criticalRange: [0, 85],
+      side: "left",
+      phase: "Downswing",
+      weight: 0.9,
+      cueGood: "Head over the ball — balanced and watching closely",
+      cueWarning: "Head falling away — losing sight of the ball",
+      cueCritical: "Head well outside line — severe balance and vision loss",
+    },
+    {
+      id: "drive-shoulder-rotation",
+      name: "Front Shoulder Rotation Through the Shot",
+      description:
+        "The front shoulder should rotate towards the bowler through impact, ensuring the bat comes through the line of the ball.",
+      angle: createCheckpointAngle("torso", "leftHip", "leftShoulder", "rightShoulder"),
+      goodRange: [60, 90],
+      warningRange: [40, 60],
+      criticalRange: [0, 40],
+      side: "both",
+      phase: "Impact",
+      weight: 0.85,
+      cueGood: "Shoulders rotating through — proper weight transfer",
+      cueWarning: "Shoulders opening too early — losing control",
+      cueCritical: "Shoulders stuck side-on — no power transfer",
+    },
+    {
+      id: "drive-top-wrist-impact",
+      name: "Top Hand Wrist Angle at Impact",
+      description:
+        "The top hand wrist should be firm and slightly ahead of the bat at impact, providing control and preventing the bat face from closing too early.",
+      angle: createCheckpointAngle("leftWrist", "leftElbow", "leftWrist", "rightWrist"),
+      goodRange: [160, 180],
+      warningRange: [140, 160],
+      criticalRange: [0, 140],
+      side: "left",
+      phase: "Impact",
+      weight: 0.8,
+      cueGood: "Wrist firm — bat face stable through impact",
+      cueWarning: "Wrist breaking — losing control of bat face",
+      cueCritical: "Wrist collapsed — bat face instability",
+    },
+    {
+      id: "drive-arm-extension",
+      name: "Arm Extension at Impact (Bat Swing Plane)",
+      description:
+        "Both arms should be nearly fully extended at impact with the bat following a straight line through the ball, ensuring maximum power and control.",
+      angle: createCheckpointAngle("rightElbow", "rightShoulder", "rightElbow", "rightWrist"),
+      goodRange: [155, 175],
+      warningRange: [135, 155],
+      criticalRange: [0, 135],
+      side: "right",
+      phase: "Impact",
+      weight: 0.85,
+      cueGood: "Arms extended — full bat swing plane",
+      cueWarning: "Arms too bent — losing reach and power",
+      cueCritical: "Collapsed arms — no power through the ball",
+    },
+    {
+      id: "drive-weight-transfer",
+      name: "Weight Transfer (Front Knee Straightening)",
+      description:
+        "The front knee should straighten from its setup flexion as weight transfers forward into the drive, indicating proper forward press and body weight transfer.",
+      angle: createCheckpointAngle("leftKnee", "leftHip", "leftKnee", "leftAnkle"),
+      goodRange: [165, 178],
+      warningRange: [155, 165],
+      criticalRange: [0, 155],
+      side: "left",
+      phase: "Impact",
+      weight: 0.75,
+      cueGood: "Weight forward — driving through the line",
+      cueWarning: "Weight stuck on back foot — reaching for the ball",
+      cueCritical: "No weight transfer — front leg still fully bent",
+    },
+    {
+      id: "drive-follow-through-rotation",
+      name: "Follow-Through Shoulder Rotation",
+      description:
+        "The shoulders should rotate more than 90° through the follow-through, indicating complete weight transfer and full body involvement in the shot.",
+      angle: createCheckpointAngle("shoulderRotation", "rightHip", "leftShoulder", "rightShoulder"),
+      goodRange: [90, 140],
+      warningRange: [70, 90],
+      criticalRange: [0, 70],
+      side: "both",
+      phase: "Follow-through",
+      weight: 0.7,
+      cueGood: "Full rotation — complete shot finish",
+      cueWarning: "Partial rotation — check weight transfer",
+      cueCritical: "Minimal rotation — shot stopping short",
+    },
+  ],
+  phases: [
+    {
+      name: "Setup",
+      description:
+        "Initial stance with feet shoulder-width apart, knees slightly flexed, bat held comfortably, weight evenly distributed on the balls of the feet.",
+    },
+    {
+      name: "Backlift",
+      description:
+        "The bat is lifted back and up as the front foot strides forward towards the pitch of the ball. The top hand controls the lift with a high elbow.",
+    },
+    {
+      name: "Downswing",
+      description:
+        "The bat descends from the backlift position as the front knee straightens. The head stays over the front knee and eyes remain level.",
+    },
+    {
+      name: "Impact",
+      description:
+        "The bat meets the ball directly under the eyes. Arms are extended, wrists firm, and the bat face is vertical through the line of the ball.",
+    },
+    {
+      name: "Follow-through",
+      description:
+        "The bat continues its arc high over the front shoulder as the body rotates fully. Weight transfers completely onto the front foot.",
+    },
+  ],
+};
+
+export const fastBowling: ExerciseBiomechanics = {
+  id: "cricket-fast-bowling",
+  name: "Fast Bowling",
+  aliases: ["fast bowling", "pace bowling", "seam bowling"],
+  category: "cricket",
+  description:
+    "Fast bowling is a high-velocity throwing-like motion requiring coordinated sequencing from run-up through bound, front foot contact, release, and follow-through. The kinetic chain transfers ground reaction forces up through the legs, hips, trunk, and arm to generate ball speed.",
+  tags: ["cricket", "bowling", "fast-bowling", "pace", "kinetic-chain", "overhead"],
+  landmarks: [
+    "nose", "leftEar", "rightEar",
+    "leftShoulder", "rightShoulder",
+    "leftElbow", "rightElbow",
+    "leftWrist", "rightWrist",
+    "leftHip", "rightHip",
+    "leftKnee", "rightKnee",
+    "leftAnkle", "rightAnkle",
+    "leftHeel", "rightHeel",
+    "leftFootIndex", "rightFootIndex",
+  ],
+  checkpoints: [
+    {
+      id: "bowl-shoulder-counter-rotation",
+      name: "Shoulder Counter-Rotation at Bound",
+      description:
+        "The shoulders should remain aligned within 30° of the target during the bound phase. Excessive counter-rotation places torsional stress on the lumbar spine and reduces ball speed.",
+      angle: createCheckpointAngle("torso", "leftHip", "leftShoulder", "rightShoulder"),
+      goodRange: [0, 30],
+      warningRange: [30, 45],
+      criticalRange: [45, 90],
+      side: "both",
+      phase: "Bound/Load",
+      weight: 0.9,
+      cueGood: "Shoulders aligned — minimal counter-rotation",
+      cueWarning: "Shoulders over-rotating — reduce back turn",
+      cueCritical: "Excessive counter-rotation — significant spinal stress risk",
+    },
+    {
+      id: "bowl-front-leg-brace",
+      name: "Front Leg Brace at Delivery",
+      description:
+        "The front leg should be nearly straight (160-175°) at front foot contact to provide a solid braking force, converting horizontal momentum into vertical force up the kinetic chain.",
+      angle: createCheckpointAngle("leftKnee", "leftHip", "leftKnee", "leftAnkle"),
+      goodRange: [160, 175],
+      warningRange: [150, 160],
+      criticalRange: [0, 150],
+      side: "left",
+      phase: "Front foot contact",
+      weight: 0.85,
+      cueGood: "Front leg braced — solid foundation for force transfer",
+      cueWarning: "Front knee too bent — losing braking force",
+      cueCritical: "Collapsed front leg — significant power leak",
+    },
+    {
+      id: "bowl-hip-shoulder-separation",
+      name: "Hip-Shoulder Separation (Pelvis-Ribcage Angle)",
+      description:
+        "The hips should rotate towards the target before the shoulders, creating 30-50° of separation that stores elastic energy in the torso for the throwing motion.",
+      angle: createCheckpointAngle("hipShoulderSep", "rightHip", "leftHip", "leftShoulder"),
+      goodRange: [30, 50],
+      warningRange: [20, 30],
+      criticalRange: [0, 20],
+      side: "both",
+      phase: "Release",
+      weight: 0.9,
+      cueGood: "Hips leading shoulders — kinetic chain loaded",
+      cueWarning: "Separation reducing — losing torsional energy",
+      cueCritical: "Hips and shoulders aligned — arm-only delivery",
+    },
+    {
+      id: "bowl-non-bowling-arm",
+      name: "Non-Bowling Arm Position",
+      description:
+        "The non-bowling (left) arm should be high and extended, then pull down forcefully towards the left hip at release, counterbalancing the bowling arm torque.",
+      angle: createCheckpointAngle("leftArm", "leftShoulder", "leftElbow", "leftWrist"),
+      goodRange: [155, 180],
+      warningRange: [135, 155],
+      criticalRange: [0, 135],
+      side: "left",
+      phase: "Release",
+      weight: 0.7,
+      cueGood: "Non-bowling arm high — good counterbalance",
+      cueWarning: "Arm dropping — losing balance and power",
+      cueCritical: "Arm tucked — no counterbalance, increased injury risk",
+    },
+    {
+      id: "bowl-bowling-arm-release",
+      name: "Bowling Arm Angle at Release",
+      description:
+        "The bowling arm should be fully extended (170-180°) at the point of release to maximize the lever arm and ball speed at the point of release.",
+      angle: createCheckpointAngle("rightElbow", "rightShoulder", "rightElbow", "rightWrist"),
+      goodRange: [170, 180],
+      warningRange: [155, 170],
+      criticalRange: [0, 155],
+      side: "right",
+      phase: "Release",
+      weight: 0.95,
+      cueGood: "Arm fully extended — maximum lever length",
+      cueWarning: "Arm slightly bent — losing ball speed",
+      cueCritical: "Arm significantly bent — major power loss at release",
+    },
+    {
+      id: "bowl-front-knee-impact",
+      name: "Front Knee Angle at Release",
+      description:
+        "The front knee maintains a braced position (160-175°) throughout the delivery stride and release, ensuring force transfer continues through the kinetic chain.",
+      angle: createCheckpointAngle("leftKnee", "leftHip", "leftKnee", "leftAnkle"),
+      goodRange: [160, 175],
+      warningRange: [150, 160],
+      criticalRange: [0, 150],
+      side: "left",
+      phase: "Release",
+      weight: 0.85,
+      cueGood: "Front knee braced through release — stable base",
+      cueWarning: "Knee flexing — losing ground reaction force",
+      cueCritical: "Knee collapsing — stress on lower back and knee",
+    },
+    {
+      id: "bowl-spine-lateral-flexion",
+      name: "Spine Lateral Flexion (Side Bend)",
+      description:
+        "The spine should laterally flex approximately 15-25° away from the target at release, creating the classic 'side bend' that allows the bowling arm to clear the hip.",
+      angle: createCheckpointAngle("spine", "rightShoulder", "leftHip", "leftKnee"),
+      goodRange: [15, 25],
+      warningRange: [25, 35],
+      criticalRange: [35, 60],
+      side: "both",
+      phase: "Release",
+      weight: 0.8,
+      cueGood: "Slight side bend — arm clears hip cleanly",
+      cueWarning: "Excessive side bend — increased spinal loading",
+      cueCritical: "Severe side bend — high risk of lumbar stress fracture",
+    },
+    {
+      id: "bowl-head-alignment",
+      name: "Head Alignment (Eyes Level)",
+      description:
+        "The head should remain upright with eyes level at release, keeping the vestibular system aligned for balance and spatial awareness.",
+      angle: createCheckpointAngle("head", "leftEar", "nose", "rightEar"),
+      goodRange: [165, 180],
+      warningRange: [150, 165],
+      criticalRange: [0, 150],
+      side: "both",
+      phase: "Release",
+      weight: 0.7,
+      cueGood: "Eyes level — balanced head position",
+      cueWarning: "Head tilting — losing balance awareness",
+      cueCritical: "Severe head tilt — disoriented at release",
+    },
+    {
+      id: "bowl-landing-foot-angle",
+      name: "Landing Foot Angle",
+      description:
+        "The front foot should point straight down the pitch (within 10° of the target line) at contact. An angled foot places rotational stress on the ankle, knee, and lower back.",
+      angle: createCheckpointAngle("leftFoot", "leftHeel", "leftFootIndex", "rightFootIndex"),
+      goodRange: [80, 100],
+      warningRange: [70, 80],
+      criticalRange: [0, 70],
+      side: "left",
+      phase: "Front foot contact",
+      weight: 0.65,
+      cueGood: "Foot pointing straight — aligned with target",
+      cueWarning: "Foot angled — check alignment down the pitch",
+      cueCritical: "Foot severely angled — risk of ankle or knee injury",
+    },
+  ],
+  phases: [
+    {
+      name: "Run-up",
+      description:
+        "Acceleration phase building momentum towards the bowling crease. The bowler develops rhythm and speed over a measured approach.",
+    },
+    {
+      name: "Bound/Load",
+      description:
+        "The gather and jump phase where the bowler loads the front leg and coils the upper body, storing elastic energy for the delivery.",
+    },
+    {
+      name: "Front foot contact",
+      description:
+        "The instant the front foot lands at the crease. This is the braking phase where horizontal momentum transfers up the kinetic chain.",
+    },
+    {
+      name: "Release",
+      description:
+        "The point of ball release with the arm fully extended. The kinetic chain completes its proximal-to-distal sequence to maximize ball speed.",
+    },
+    {
+      name: "Follow-through",
+      description:
+        "Post-release deceleration phase. The bowling arm continues across the body and the non-bowling arm tucks to absorb rotational forces.",
+    },
+  ],
+};
+
+export const cutPullShot: ExerciseBiomechanics = {
+  id: "cricket-cut-pull-shot",
+  name: "Cut / Pull Shot",
+  aliases: ["cut shot", "pull shot", "back foot shot", "square cut"],
+  category: "cricket",
+  description:
+    "The cut and pull shots are back-foot attacking strokes played to short-pitched deliveries. They require rapid pivot footwork, controlled trunk rotation, and precise weight transfer onto the back foot.",
+  tags: ["cricket", "batting", "cut", "pull", "back-foot", "attacking", "rotation"],
+  landmarks: [
+    "nose", "leftEar", "rightEar",
+    "leftShoulder", "rightShoulder",
+    "leftElbow", "rightElbow",
+    "leftWrist", "rightWrist",
+    "leftHip", "rightHip",
+    "leftKnee", "rightKnee",
+    "leftAnkle", "rightAnkle",
+    "leftHeel", "rightHeel",
+    "leftFootIndex", "rightFootIndex",
+  ],
+  checkpoints: [
+    {
+      id: "cut-pivot-knee",
+      name: "Back Leg Knee Bend at Pivot",
+      description:
+        "The back knee should bend to approximately 100-130° during the pivot as weight transfers onto the back foot, providing a stable base for the rotational shot.",
+      angle: createCheckpointAngle("rightKnee", "rightHip", "rightKnee", "rightAnkle"),
+      goodRange: [100, 130],
+      warningRange: [85, 100],
+      criticalRange: [0, 85],
+      side: "right",
+      phase: "Pivot",
+      weight: 0.8,
+      cueGood: "Knee bent — stable base for rotation",
+      cueWarning: "Knee too straight — losing stability",
+      cueCritical: "Knee too deep — cannot pivot effectively",
+    },
+    {
+      id: "cut-trunk-rotation",
+      name: "Trunk Rotation at Backlift",
+      description:
+        "The shoulders should rotate approximately 70-100° from the target during the backlift for the cut/pull, creating the necessary coil for a powerful rotational stroke.",
+      angle: createCheckpointAngle("torso", "leftHip", "leftShoulder", "rightShoulder"),
+      goodRange: [70, 100],
+      warningRange: [55, 70],
+      criticalRange: [0, 55],
+      side: "both",
+      phase: "Backlift",
+      weight: 0.85,
+      cueGood: "Good trunk rotation — coil loaded",
+      cueWarning: "Under-rotated — losing power",
+      cueCritical: "Minimal rotation — arm-only shot",
+    },
+    {
+      id: "cut-head-stability",
+      name: "Head Position (Eyes Level, Still)",
+      description:
+        "The head should remain still with eyes level during the pivot and swing, ensuring the batter can track the ball and maintain balance during the rotational motion.",
+      angle: createCheckpointAngle("head", "leftEar", "nose", "rightEar"),
+      goodRange: [165, 180],
+      warningRange: [150, 165],
+      criticalRange: [0, 150],
+      side: "both",
+      phase: "Swing",
+      weight: 0.85,
+      cueGood: "Head still — tracking the ball",
+      cueWarning: "Head moving — losing sight of the ball",
+      cueCritical: "Head bobbing — severe balance and vision loss",
+    },
+    {
+      id: "cut-arm-extension",
+      name: "Arm Extension Through Contact",
+      description:
+        "Both arms should be extended at contact with the bottom arm driving the bat through the line, creating the long lever needed for power in square shots.",
+      angle: createCheckpointAngle("leftElbow", "leftShoulder", "leftElbow", "leftWrist"),
+      goodRange: [155, 175],
+      warningRange: [135, 155],
+      criticalRange: [0, 135],
+      side: "left",
+      phase: "Contact",
+      weight: 0.9,
+      cueGood: "Arms extended — full reach through the shot",
+      cueWarning: "Arms too bent — losing reach and power",
+      cueCritical: "Arms collapsed — no power on the cut",
+    },
+    {
+      id: "cut-weight-transfer",
+      name: "Weight Transfer onto Back Foot",
+      description:
+        "Weight should transfer decisively onto the back foot during the pivot, as indicated by the back knee flexion angle and hip position relative to the front leg.",
+      angle: createCheckpointAngle("rightHip", "leftHip", "rightHip", "rightKnee"),
+      goodRange: [15, 35],
+      warningRange: [5, 15],
+      criticalRange: [0, 5],
+      side: "right",
+      phase: "Pivot",
+      weight: 0.75,
+      cueGood: "Weight on back foot — ready for the cut",
+      cueWarning: "Weight neutral — commit to back foot more",
+      cueCritical: "Weight still on front foot — cannot play back foot shot",
+    },
+  ],
+  phases: [
+    {
+      name: "Setup",
+      description:
+        "Initial stance with weight evenly distributed, ready to assess the length of the delivery.",
+    },
+    {
+      name: "Backlift",
+      description:
+        "The bat is lifted back as the upper body coils. The back foot begins to move into position for the pivot.",
+    },
+    {
+      name: "Pivot",
+      description:
+        "Weight transfers onto the back foot as the back knee bends and the foot pivots to align the body for the intended direction.",
+    },
+    {
+      name: "Swing",
+      description:
+        "The bat swings through the horizontal or slightly descending arc as the trunk rotates. The head remains still and eyes track the ball.",
+    },
+    {
+      name: "Contact",
+      description:
+        "The bat meets the ball with arms extended in front of or beside the body, depending on cut vs pull. Wrist roll directs the ball.",
+    },
+    {
+      name: "Follow-through",
+      description:
+        "The bat continues its arc over the front or back shoulder. The body completes its rotation to finish balanced.",
+    },
+  ],
+};
+
+const cricketExercises: ExerciseBiomechanics[] = [
+  forwardDrive,
+  fastBowling,
+  cutPullShot,
+];
+
+export default cricketExercises;
