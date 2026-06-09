@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
+    "@radix-ui/react-dialog": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.0",
     "@formiq/3d": "*",
     "@formiq/biomechanics": "*",
     "@formiq/core": "*",
