@@ -99,5 +99,5 @@ export function evaluateCheckpoint(
   if (angle >= checkpoint.goodRange[0] && angle <= checkpoint.goodRange[1]) {
     return "good";
   }
-  return "warning";
+  return "critical"; // Safer default — angle beyond all defined ranges
 }

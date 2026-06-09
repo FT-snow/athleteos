@@ -5,11 +5,14 @@ import type { MlPredictionRequest } from "@recoveryiq/ml";
  * Bridges RecoveryIQ daily log data → ML predictor feature vector.
  * Converts N days of DailyRecoveryLog into an MlPredictionRequest
  * that can be sent to the FastAPI /predict endpoint or fallbackScorer.
+ *
+ * @param activeInjuryCount - Optional count of current active injuries (default reads from logs)
  */
 export function logsToMlRequest(
   athleteId: string,
   logs: DailyRecoveryLog[],
-  currentDate: string
+  currentDate: string,
+  activeInjuryCount?: number
 ): MlPredictionRequest {
   const recentLogs = logs.filter((l) => {
     const d = new Date(l.date);
@@ -71,7 +74,8 @@ export function logsToMlRequest(
       avgTrainingLoad7d: safe(recentLogs, (l) => l.trainingLoad ?? 5),
       trainingLoadTrend: loadTrend,
       avgFormScore7d: formScores.length > 0 ? formScores.reduce((a, b) => a + b, 0) / formScores.length : undefined,
-      activeInjuries: 0,
+      activeInjuries: activeInjuryCount ?? logs.filter((l) => (l.injuryNotes?.length ?? 0) > 0).length,
+      painTrend: recentSoreness > olderSoreness * 1.1 ? "worsening" : olderSoreness > recentSoreness * 1.1 ? "improving" : "stable",
     },
   };
 }

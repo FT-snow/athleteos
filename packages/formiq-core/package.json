@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@formiq/types": "*"
+    "@formiq/types": "*",
+    "@formiq/biomechanics": "*"
   },
   "devDependencies": {
     "typescript": "^5.9.2"

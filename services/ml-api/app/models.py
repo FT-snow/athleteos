@@ -22,6 +22,13 @@ class Features(BaseModel):
     activeInjuries: int = 0
     rehabCompliance: Optional[float] = None
 
+    formInjuryRiskScore: Optional[float] = None
+    formHighRiskCheckpoints: Optional[int] = None
+
+    painTrend: Optional[str] = None
+    rehabStage: Optional[str] = None
+    returnToPlayScore: Optional[float] = None
+
 class PredictionRequest(BaseModel):
     athleteId: str
     date: str
@@ -32,6 +39,12 @@ class ShapFeature(BaseModel):
     value: float
     impact: float
 
+class FormRiskContributor(BaseModel):
+    exercise: str
+    checkpointName: str
+    riskScore: float
+    cue: str
+
 class PredictionResponse(BaseModel):
     readinessScore: float
     readinessLabel: str
@@ -41,3 +54,5 @@ class PredictionResponse(BaseModel):
     fatigueDetected: bool
     fatigueConfidence: float
     recommendation: str
+    formRiskContributors: list[FormRiskContributor] = []
+    rehabReadinessScore: Optional[float] = None

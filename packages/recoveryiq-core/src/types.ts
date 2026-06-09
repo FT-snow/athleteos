@@ -15,7 +15,7 @@ export interface SorenessEntry {
   notes?: string;
 }
 
-export type BodyZone = "legs" | "back" | "shoulders" | "arms" | "core" | "chest" | "glutes" | "hips" | "neck" | "knees" | "ankles" | "wrists" | "elbows";
+export type BodyZone = "legs" | "back" | "shoulders" | "arms" | "core" | "chest" | "glutes" | "hips" | "neck" | "knees" | "ankles" | "wrists" | "elbows" | "spine" | "hamstrings" | "quads";
 
 export interface HrvProxy {
   date: string;

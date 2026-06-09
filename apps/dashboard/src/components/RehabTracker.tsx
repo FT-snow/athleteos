@@ -1,7 +1,18 @@
-export function RehabTracker() {
-  const injuries = [
+interface TrackerInjury {
+  zone: string;
+  diagnosis: string;
+  severity: string;
+  status: string;
+  compliance: number;
+  pain: number;
+}
+
+export function RehabTracker({ injuries: externalInjuries }: { injuries?: TrackerInjury[] }) {
+  const injuries = externalInjuries ?? [
     { zone: "knees", diagnosis: "Patellar tendinopathy", severity: "moderate", status: "rehab", compliance: 85, pain: 3 },
     { zone: "shoulders", diagnosis: "Rotator cuff strain", severity: "mild", status: "active", compliance: 60, pain: 5 },
+    { zone: "back", diagnosis: "Lumbar disc bulge", severity: "moderate", status: "rehab", compliance: 75, pain: 4 },
+    { zone: "ankles", diagnosis: "Chronic ankle instability", severity: "mild", status: "recovered", compliance: 90, pain: 1 },
   ];
 
   return (

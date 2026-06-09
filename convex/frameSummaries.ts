@@ -1,7 +1,7 @@
-import { mutationGeneric, queryGeneric } from "convex/server";
+import { internalMutationGeneric, queryGeneric } from "convex/server";
 import { v } from "convex/values";
 
-export const create = mutationGeneric({
+export const create = internalMutationGeneric({
   args: {
     sessionId: v.id("sessions"),
     repId: v.optional(v.id("reps")),

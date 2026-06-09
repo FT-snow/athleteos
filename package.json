@@ -22,5 +22,9 @@
   ],
   "devDependencies": {
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@convex-dev/auth": "0.0.93",
+    "convex": "^1.40.0"
   }
 }

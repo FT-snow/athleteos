@@ -29,7 +29,20 @@ export interface MlPredictionRequest {
     daysSinceLastInjury?: number;
     activeInjuries: number;
     rehabCompliance?: number;
+    // FormIQ live injury risk
+    formInjuryRiskScore?: number;
+    formHighRiskCheckpoints?: number;
+    // Rehab data
+    painTrend?: "improving" | "stable" | "worsening";
+    rehabStage?: "acute" | "subacute" | "rehab" | "strength" | "return-to-sport";
+    returnToPlayScore?: number;
   };
+}
+
+export interface FormRiskContributor {
+  checkpointId: string;
+  riskScore: number;
+  bodyZone: string;
 }
 
 export interface MlPredictionResponse {
@@ -41,6 +54,8 @@ export interface MlPredictionResponse {
   fatigueDetected: boolean;
   fatigueConfidence: number;
   recommendation: string;
+  formRiskContributors?: FormRiskContributor[];
+  rehabReadinessScore?: number;
 }
 
 export interface ShapFeature {

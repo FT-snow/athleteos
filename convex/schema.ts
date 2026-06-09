@@ -1,10 +1,55 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import { authTables } from "@convex-dev/auth/server";
 
 export default defineSchema({
+  ...authTables,
+  users: defineTable({
+    name: v.optional(v.string()),
+    email: v.optional(v.string()),
+    emailVerificationTime: v.optional(v.number()),
+    image: v.optional(v.string()),
+    subject: v.optional(v.string()),
+    sport: v.optional(v.string()),
+  }).index("subject", ["subject"]),
+  athleteProfiles: defineTable({
+    athleteId: v.string(),
+    name: v.optional(v.string()),
+    username: v.optional(v.string()),
+    sport: v.string(),
+    primaryMuscles: v.array(v.string()),
+    age: v.optional(v.number()),
+    birthday: v.optional(v.string()),
+    weight: v.optional(v.number()),
+    height: v.optional(v.number()),
+    gender: v.optional(v.string()),
+    onboardingCompleted: v.boolean(),
+    createdAt: v.string(),
+    updatedAt: v.string(),
+  }).index("by_athlete_id", ["athleteId"]),
+  dailyLogs: defineTable({
+    athleteId: v.string(),
+    date: v.string(),
+    sleepHours: v.number(),
+    sleepQuality: v.number(),
+    wakeUps: v.number(),
+    morningEnergy: v.number(),
+    restingHr: v.number(),
+    morningFeel: v.number(),
+    motivation: v.number(),
+    stress: v.number(),
+    focus: v.number(),
+    soreness: v.array(
+      v.object({ zone: v.string(), rating: v.number() }),
+    ),
+    trainingLoad: v.number(),
+    createdAt: v.string(),
+  }).index("by_athlete_date", ["athleteId", "date"]),
   sessions: defineTable({
     externalSessionId: v.string(),
     athleteId: v.optional(v.string()),
+    sport: v.optional(v.string()),
+    muscleGroup: v.optional(v.string()),
     exerciseName: v.string(),
     startedAt: v.string(),
     endedAt: v.optional(v.string()),
@@ -55,4 +100,46 @@ export default defineSchema({
     model: v.optional(v.string()),
     createdAt: v.string(),
   }).index("by_session_id", ["sessionId"]),
+  sleepLogs: defineTable({
+    userId: v.id("users"),
+    date: v.string(),
+    bedtime: v.string(),
+    waketime: v.string(),
+    duration: v.number(),
+    quality: v.number(),
+    notes: v.optional(v.string()),
+    createdAt: v.number(),
+  }).index("by_user_date", ["userId", "date"])
+    .index("by_user", ["userId"]),
+  nutritionLogs: defineTable({
+    userId: v.id("users"),
+    date: v.string(),
+    meals: v.array(v.object({
+      id: v.string(),
+      foodId: v.string(),
+      name: v.string(),
+      serving: v.string(),
+      nutrients: v.record(v.string(), v.number()),
+      timestamp: v.string(),
+    })),
+    totals: v.record(v.string(), v.number()),
+    createdAt: v.number(),
+  }).index("by_user_date", ["userId", "date"])
+    .index("by_user", ["userId"]),
+  formAnalyses: defineTable({
+    userId: v.id("users"),
+    exercise: v.string(),
+    sport: v.string(),
+    overallScore: v.number(),
+    riskLevel: v.string(),
+    angles: v.array(v.object({
+      joint: v.string(),
+      angleDeg: v.number(),
+      status: v.string(),
+    })),
+    cues: v.array(v.string()),
+    imageBase64: v.optional(v.string()),
+    createdAt: v.number(),
+  }).index("by_user_date", ["userId", "createdAt"])
+    .index("by_user_exercise", ["userId", "exercise"]),
 });

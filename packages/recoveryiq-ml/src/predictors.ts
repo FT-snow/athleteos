@@ -33,19 +33,23 @@ export class PredictorClient {
   }
 }
 
+function safeScore(value: number, fallback: number): number {
+  return Number.isFinite(value) ? value : fallback;
+}
+
 // Fallback deterministic scorer when ML API is unavailable
 export function fallbackScorer(request: MlPredictionRequest): MlPredictionResponse {
-  // Compute a simple weighted score
-  const sleepScore = (request.features.avgSleepHours / 8) * 100 * 0.3 + (request.features.avgSleepQuality / 10) * 100 * 0.2;
-  const hrvScore = (1 - (request.features.avgRestingHr - 40) / 60) * 100;
-  const mentalScore = (
-    request.features.avgMotivation +
-    (11 - request.features.avgStress) +
-    request.features.avgConfidence +
-    request.features.avgFocus
-  ) / 4 * 10;
-  const sorenessPenalty = Math.min(request.features.totalSorenessScore * 5, 30);
-  const injuryPenalty = Math.min(request.features.activeInjuries * 15, 40);
+  const f = request.features;
+
+  const sleepScore = safeScore((f.avgSleepHours / 8) * 100 * 0.3, 0) + safeScore((f.avgSleepQuality / 10) * 100 * 0.2, 0);
+  const hrvScore = safeScore((1 - (f.avgRestingHr - 40) / 60) * 100, 50);
+  const mentalAvg = safeScore(
+    (f.avgMotivation + (11 - f.avgStress) + f.avgConfidence + f.avgFocus) / 4 * 10,
+    50
+  );
+  const mentalScore = Number.isFinite(mentalAvg) ? Math.max(0, Math.min(100, mentalAvg)) : 50;
+  const sorenessPenalty = Math.min(safeScore(f.totalSorenessScore, 0) * 5, 30);
+  const injuryPenalty = Math.min(safeScore(f.activeInjuries, 0) * 15, 40);
 
   const readiness = Math.max(0, Math.min(100, sleepScore * 0.3 + hrvScore * 0.25 + mentalScore * 0.25 - sorenessPenalty - injuryPenalty));
 
@@ -53,13 +57,13 @@ export function fallbackScorer(request: MlPredictionRequest): MlPredictionRespon
     readinessScore: Math.round(readiness),
     readinessLabel: readiness > 75 ? "ready" : readiness > 55 ? "moderate" : readiness > 35 ? "fatigued" : "high-risk",
     topFeatures: [
-      { name: "Sleep Quality", value: request.features.avgSleepQuality, impact: request.features.avgSleepQuality > 7 ? 15 : -10 },
-      { name: "Resting HR", value: request.features.avgRestingHr, impact: request.features.avgRestingHr < 65 ? 10 : -8 },
-      { name: "Stress Level", value: request.features.avgStress, impact: request.features.avgStress < 5 ? 12 : -12 },
+      { name: "Sleep Quality", value: f.avgSleepQuality, impact: safeScore(f.avgSleepQuality, 5) > 7 ? 15 : -10 },
+      { name: "Resting HR", value: f.avgRestingHr, impact: safeScore(f.avgRestingHr, 60) < 65 ? 10 : -8 },
+      { name: "Stress Level", value: f.avgStress, impact: safeScore(f.avgStress, 5) < 5 ? 12 : -12 },
     ],
-    injuryRisk: request.features.activeInjuries > 0 || request.features.totalSorenessScore > 8 ? "HIGH" : "LOW",
+    injuryRisk: f.activeInjuries > 0 || f.totalSorenessScore > 8 ? "HIGH" : "LOW",
     injuryRiskConfidence: 0.7,
-    fatigueDetected: request.features.avgSleepHours < 6 || request.features.sleepDebtHours > 6,
+    fatigueDetected: safeScore(f.avgSleepHours, 8) < 6 || safeScore(f.sleepDebtHours, 0) > 6,
     fatigueConfidence: 0.65,
     recommendation: readiness > 75 ? "Athlete is recovered and ready for high-intensity training."
       : readiness > 55 ? "Moderate readiness. Proceed with planned training but monitor load."

@@ -6,3 +6,4 @@ export * from "./reps";
 export * from "./session";
 export * from "./fatigue";
 export * from "./defaults";
+export * from "./risk";
