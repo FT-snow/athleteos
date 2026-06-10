@@ -268,10 +268,10 @@ export function NutriSyncView() {
                               e.stopPropagation()
                               setServings(prev => ({ ...prev, [food.id]: s }))
                             }}
-                            className={`px-2 py-1 text-[11px] rounded-[2px] font-ui transition-colors ${
+                            className={`px-2.5 py-1 text-[11px] rounded-[2px] font-ui transition-colors ${
                               selServings === s
                                 ? 'bg-[var(--teal-accent)] text-black'
-                                : 'bg-[rgba(121,187,195,0.08)] text-[var(--teal-muted)] hover:text-[var(--teal-light)]'
+                                : 'border border-[rgba(121,187,195,0.3)] text-[var(--teal-muted)] hover:border-[var(--teal-light)] hover:text-[var(--teal-light)] bg-[rgba(121,187,195,0.06)]'
                             }`}
                           >
                             {s}×
@@ -307,11 +307,11 @@ export function NutriSyncView() {
                         <div className="flex items-center gap-3">
                           <div>
                             <div className="text-sm text-[var(--foreground)] font-ui">{m.name}</div>
-                            <div className="text-[10px] text-[var(--teal-muted)]">{m.serving} &middot; {m.timestamp}{m.cuisine ? ` \u00b7 ${m.cuisine.replace('-', ' ')}` : ''}</div>
+                            <div className="text-[10px] text-[var(--teal-muted)]">{m.serving}{m.cuisine ? ` \u00b7 ${m.cuisine.replace('-', ' ')}` : ''}</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-xs tabular-nums text-[var(--teal-muted)] font-ui-mono">{m.nutrients.calories} kcal</span>
+                            <span className="text-xs tabular-nums text-[var(--teal-muted)] font-ui-mono">{Math.round(m.nutrients.calories || 0)} kcal</span>
                           <button onClick={() => removeMeal(m.id)} className="text-[var(--teal-muted)] hover:text-[#ef4444] transition-colors">
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
