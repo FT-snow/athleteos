@@ -72,7 +72,7 @@ function MacroRing({ label, kcal, totalKcal, color, trackColor }: {
     if (!ring || !count) return;
     gsap.set(ring, { strokeDasharray: circumference, strokeDashoffset: circumference });
     gsap.to(ring, { strokeDashoffset: circumference - fill, duration: 1.2, ease: "power2.out" });
-    animate(count, { innerText: [0, Math.round(kcal)], duration: 1200, ease: "outExpo" });
+    animate(count, { innerText: [0, Math.round(kcal)], duration: 1200, ease: "outExpo", round: 1 });
   }, [kcal, fill, circumference]);
 
   return (

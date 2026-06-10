@@ -114,7 +114,7 @@ export function useDailyNutrition() {
       const s = servings ?? 1;
       const scaledNutrients: NutrientMap = {};
       for (const key of Object.keys(food.nutrients)) {
-        scaledNutrients[key] = (food.nutrients[key] || 0) * s;
+        scaledNutrients[key] = Math.round(((food.nutrients[key] || 0) * s) * 100) / 100;
       }
       const newMeal: LoggedMeal = {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
