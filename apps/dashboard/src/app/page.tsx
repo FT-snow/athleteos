@@ -411,7 +411,6 @@ export default function Home() {
                 <span className="w-px h-3 bg-[rgba(121,187,195,0.2)]" />
                 <span>REAL-TIME</span>
                 <span className="w-px h-3 bg-[rgba(121,187,195,0.2)]" />
-                <span>VELOX</span>
               </div>
             </div>
           </motion.div>

@@ -204,7 +204,7 @@ export function StaggeredMenu({ onNavigate }: StaggeredMenuProps) {
 
           <div className="menu-footer mt-auto pt-8">
             <p className="font-ui text-[10px] font-light tracking-[0.2em] uppercase text-[rgba(121,187,195,0.3)]">
-              ATHLETEOS &middot; VELOX &middot; 2026
+               ATHLETEOS &middot; 2026
             </p>
           </div>
         </div>
