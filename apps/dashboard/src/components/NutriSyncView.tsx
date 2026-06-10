@@ -247,36 +247,36 @@ export function NutriSyncView() {
                   filteredFoods.map(food => {
                     const selServings = servings[food.id] || 1
                     return (
-                    <div key={food.id} className="flex w-full items-center justify-between rounded-[4px] px-3 py-2.5 transition-colors hover:bg-[rgba(121,187,195,0.06)]">
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm text-[var(--foreground)] font-ui">{food.name}</div>
-                        <div className="text-[10px] text-[var(--teal-muted)]">{food.serving} &middot; {Math.round(food.nutrients.calories * selServings)} kcal</div>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0 ml-2">
-                        <div className="flex gap-0.5">
-                          {SERVING_OPTIONS.map((s) => (
-                            <button
-                              key={s}
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                setServings(prev => ({ ...prev, [food.id]: s }))
-                              }}
-                              className={`px-1.5 py-0.5 text-[10px] rounded-[2px] font-ui transition-colors ${
-                                selServings === s
-                                  ? 'bg-[var(--teal-accent)] text-black'
-                                  : 'text-[var(--teal-muted)] hover:text-[var(--teal-light)]'
-                              }`}
-                            >
-                              {s}×
-                            </button>
-                          ))}
+                    <div key={food.id} className="rounded-[4px] px-3 py-2.5 transition-colors hover:bg-[rgba(121,187,195,0.06)]">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <div>
+                          <div className="text-sm text-[var(--foreground)] font-ui">{food.name}</div>
+                          <div className="text-[10px] text-[var(--teal-muted)]">{food.serving} &middot; {Math.round(food.nutrients.calories * selServings)} kcal</div>
                         </div>
                         <button
                           onClick={() => handleFoodClick(food)}
-                          className="font-label text-xs text-[var(--teal-accent)] whitespace-nowrap"
+                          className="font-label text-xs text-[var(--teal-accent)] whitespace-nowrap ml-2"
                         >
                           Add
                         </button>
+                      </div>
+                      <div className="flex gap-1">
+                        {SERVING_OPTIONS.map((s) => (
+                          <button
+                            key={s}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setServings(prev => ({ ...prev, [food.id]: s }))
+                            }}
+                            className={`px-2 py-1 text-[11px] rounded-[2px] font-ui transition-colors ${
+                              selServings === s
+                                ? 'bg-[var(--teal-accent)] text-black'
+                                : 'bg-[rgba(121,187,195,0.08)] text-[var(--teal-muted)] hover:text-[var(--teal-light)]'
+                            }`}
+                          >
+                            {s}×
+                          </button>
+                        ))}
                       </div>
                     </div>
                     )

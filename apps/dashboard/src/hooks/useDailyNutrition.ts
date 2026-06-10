@@ -120,7 +120,7 @@ export function useDailyNutrition() {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
         foodId: food.id,
         name: food.name,
-        serving: `${s}× ${food.serving}`,
+        serving: s === 1 ? food.serving : `${s}× ${food.serving}`,
         nutrients: scaledNutrients,
         timestamp: new Date().toLocaleTimeString(),
         cuisine: food.cuisine,
