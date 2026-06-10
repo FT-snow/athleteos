@@ -60,6 +60,7 @@ function MacroRing({ label, kcal, totalKcal, color, trackColor }: {
   const ringRef = useRef<SVGCircleElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
   const animated = useRef(false);
+  const animRef = useRef<ReturnType<typeof animate> | null>(null);
   const size = label === "Protein" ? 120 : label === "Carbs" ? 96 : 80;
   const stroke = 8;
   const r = 48;
@@ -71,15 +72,17 @@ function MacroRing({ label, kcal, totalKcal, color, trackColor }: {
     const ring = ringRef.current;
     const count = countRef.current;
     if (!ring || !count) return;
+    animRef.current?.cancel();
     if (!animated.current) {
       animated.current = true;
       gsap.set(ring, { strokeDasharray: circumference, strokeDashoffset: circumference });
-      animate(count, { innerText: [0, Math.round(kcal)], duration: 1200, ease: "outExpo" });
+      animRef.current = animate(count, { innerText: [0, Math.round(kcal)], duration: 1200, ease: "outExpo", round: true });
       gsap.to(ring, { strokeDashoffset: circumference - fill, duration: 1.2, ease: "power2.out" });
     } else {
       count.textContent = Math.round(kcal).toString();
       gsap.to(ring, { strokeDashoffset: circumference - fill, duration: 0.4, ease: "power2.out" });
     }
+    return () => { animRef.current?.cancel(); };
   }, [kcal, fill, circumference]);
 
   return (
