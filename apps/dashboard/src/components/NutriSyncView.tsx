@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { Search, X, Trash2, Utensils } from "lucide-react"
 import { gsap } from "gsap"
 import { animate } from "animejs"
@@ -59,6 +59,7 @@ function MacroRing({ label, kcal, totalKcal, color, trackColor }: {
 }) {
   const ringRef = useRef<SVGCircleElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  const animated = useRef(false);
   const size = label === "Protein" ? 120 : label === "Carbs" ? 96 : 80;
   const stroke = 8;
   const r = 48;
@@ -70,9 +71,15 @@ function MacroRing({ label, kcal, totalKcal, color, trackColor }: {
     const ring = ringRef.current;
     const count = countRef.current;
     if (!ring || !count) return;
-    gsap.set(ring, { strokeDasharray: circumference, strokeDashoffset: circumference });
-    gsap.to(ring, { strokeDashoffset: circumference - fill, duration: 1.2, ease: "power2.out" });
-    animate(count, { innerText: [0, Math.round(kcal)], duration: 1200, ease: "outExpo", round: 1 });
+    if (!animated.current) {
+      animated.current = true;
+      gsap.set(ring, { strokeDasharray: circumference, strokeDashoffset: circumference });
+      animate(count, { innerText: [0, Math.round(kcal)], duration: 1200, ease: "outExpo" });
+      gsap.to(ring, { strokeDashoffset: circumference - fill, duration: 1.2, ease: "power2.out" });
+    } else {
+      count.textContent = Math.round(kcal).toString();
+      gsap.to(ring, { strokeDashoffset: circumference - fill, duration: 0.4, ease: "power2.out" });
+    }
   }, [kcal, fill, circumference]);
 
   return (
