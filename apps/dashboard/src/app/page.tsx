@@ -210,7 +210,7 @@ export default function Home() {
     setNavigating(true);
     setTimeout(() => {
       setView(target[label] || "home");
-    }, 400);
+    }, 150);
   }, [router, signOut]);
 
   useEffect(() => {
@@ -330,7 +330,7 @@ export default function Home() {
         onSubmit={handleQuizSubmit}
       />
 
-      {navigating && <LoadingScreen duration={500} onDone={() => setNavigating(false)} />}
+      {navigating && <LoadingScreen duration={250} onDone={() => setNavigating(false)} />}
 
       <SprinterScene />
       <StaggeredMenu onNavigate={handleNavigate} />
@@ -373,7 +373,7 @@ export default function Home() {
                   key={item.label}
                   onClick={() => {
                     setNavigating(true);
-                    setTimeout(() => { setView(item.view); }, 400);
+                    setTimeout(() => { setView(item.view); }, 150);
                   }}
                   data-hoverable
                   className={`module-card ${item.span} ${item.height} group relative rounded-[4px] border border-[rgba(121,187,195,0.12)] bg-[rgba(5,14,18,0.75)] p-4 text-left transition-colors duration-250 hover:border-[rgba(121,187,195,0.40)]`}

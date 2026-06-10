@@ -19,6 +19,7 @@ interface SleepStatsProps {
 
 export function SleepStats({ userId }: SleepStatsProps) {
   const [mounted, setMounted] = useState(false)
+  const [convexLoaded, setConvexLoaded] = useState(false)
   const [avg, setAvg] = useState(0)
   const [debt, setDebt] = useState(0)
   const [best, setBest] = useState<number>(0)
@@ -51,8 +52,11 @@ export function SleepStats({ userId }: SleepStatsProps) {
         : 0
       setScore(Math.round(avgQ * 2 * 10) / 10)
       setMounted(true)
+      setConvexLoaded(true)
       return
     }
+
+    if (convexLoaded) return
 
     const logs = getLast7Days()
     setAvg(calcAvgDuration(logs))
@@ -60,7 +64,7 @@ export function SleepStats({ userId }: SleepStatsProps) {
     setBest(getBestNight(logs)?.duration ?? 0)
     setScore(calcSleepScore(logs))
     setMounted(true)
-  }, [convexLogs])
+  }, [convexLogs, convexLoaded])
 
   const stats = [
     {

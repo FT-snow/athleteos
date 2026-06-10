@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react"
 import MagicRings from "./MagicRings"
 
-export function LoadingScreen({ onDone, duration = 1800 }: { onDone: () => void; duration?: number }) {
+export function LoadingScreen({ onDone, duration = 800 }: { onDone: () => void; duration?: number }) {
   const [fadeOut, setFadeOut] = useState(false)
 
   useEffect(() => {
     const t = setTimeout(() => {
       setFadeOut(true)
-      setTimeout(onDone, 500)
+      setTimeout(onDone, 200)
     }, duration)
     return () => clearTimeout(t)
   }, [onDone])

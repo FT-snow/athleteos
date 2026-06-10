@@ -16,6 +16,7 @@ interface SleepHistoryProps {
 export function SleepHistory({ refreshKey, userId }: SleepHistoryProps) {
   const [logs, setLogs] = useState<SleepEntry[]>([])
   const [mounted, setMounted] = useState(false)
+  const [convexLoaded, setConvexLoaded] = useState(false)
 
   const convexLogs = useQuery(
     api.sleep.getSleepLogs,
@@ -27,11 +28,15 @@ export function SleepHistory({ refreshKey, userId }: SleepHistoryProps) {
     if (convexLogs) {
       setLogs(convexLogs.map((l: any) => convexToSleepEntry(l)))
       setMounted(true)
+      setConvexLoaded(true)
       return
     }
+
+    if (convexLoaded) return
+
     setLogs(getAllSleepLogs())
     setMounted(true)
-  }, [convexLogs, refreshKey])
+  }, [convexLogs, refreshKey, convexLoaded])
 
   const handleDelete = async (id: string) => {
     deleteSleepLog(id)

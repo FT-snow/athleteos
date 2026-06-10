@@ -2,6 +2,8 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { BentoCard } from "@/components/FeatureCard";
 import { getLatestQuizLog, formatQuizLogSummary } from "@/lib/quiz-data";
 
@@ -79,7 +81,9 @@ export function CoachAdvice({ context = "general", placeholder = "Ask your coach
                       : "border border-[var(--border)] text-[var(--teal-light)]"
                   }`}
                 >
-                  {m.content}
+                  <div className="prose prose-invert prose-xs max-w-none [&_p]:text-xs [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:pl-3 [&_ol]:list-decimal [&_ol]:pl-3 [&_li]:text-xs [&_strong]:text-[var(--teal-light)] [&_code]:bg-[rgba(255,255,255,0.06)] [&_code]:px-1 [&_code]:rounded-[2px] [&_code]:text-[10px]">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+                  </div>
                 </div>
               </motion.div>
             ))}

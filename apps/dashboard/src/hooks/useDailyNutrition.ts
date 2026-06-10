@@ -58,10 +58,11 @@ function computeTotals(meals: LoggedMeal[]): NutrientMap {
 
 export function useDailyNutrition() {
   const date = getTodaysDate();
-  const [logs, setLogs] = useState<DayLog[]>(() => loadLogs());
+  const [logs, setLogs] = useState<DayLog[]>([]);
   const [search, setSearch] = useState('');
   const [cuisineFilter, setCuisineFilter] = useState<Cuisine | 'all'>('all');
   const [mealTypeFilter, setMealTypeFilter] = useState<string>('all');
+  const [convexReady, setConvexReady] = useState(false);
   const { isAuthenticated, isLoading } = useConvexAuth();
   const currentUser = useQuery(api.users.getUser);
   const convexUserId = isAuthenticated && !isLoading && currentUser ? (currentUser as any)?._id : undefined;
@@ -74,44 +75,53 @@ export function useDailyNutrition() {
   );
 
   useEffect(() => {
-    if (convexDayData) {
-      setLogs((prev) => {
-        const existing = prev.find((l) => l.date === date);
-        if (existing && existing.meals.length === 0 && convexDayData.meals.length > 0) {
-          const updated = prev.map((l) =>
-            l.date === date
-              ? { date, meals: convexDayData.meals as LoggedMeal[] }
-              : l,
-          );
-          saveLogs(updated);
-          return updated;
-        }
-        return prev;
-      });
+    if (convexDayData !== undefined) {
+      setConvexReady(true);
+      if (convexDayData) {
+        setLogs((prev) => {
+          const existing = prev.find((l) => l.date === date);
+          if (existing && existing.meals.length === 0 && convexDayData.meals.length > 0) {
+            const updated = prev.map((l) =>
+              l.date === date
+                ? { date, meals: convexDayData.meals as LoggedMeal[] }
+                : l,
+            );
+            saveLogs(updated);
+            return updated;
+          }
+          return prev;
+        });
+      }
     }
   }, [convexDayData, date]);
 
   useEffect(() => {
+    if (convexReady) return;
     const saved = loadLogs();
     if (saved.length === 0 || saved[0]?.date !== date) {
       saved.unshift({ date, meals: [] });
       saveLogs(saved);
-      setLogs(saved);
     }
-  }, [date]);
+    setLogs(saved);
+  }, [date, convexReady]);
 
   useEffect(() => {
     saveLogs(logs);
   }, [logs]);
 
   const addFood = useCallback(
-    async (food: FoodItem) => {
+    async (food: FoodItem, servings?: number) => {
+      const s = servings ?? 1;
+      const scaledNutrients: NutrientMap = {};
+      for (const key of Object.keys(food.nutrients)) {
+        scaledNutrients[key] = (food.nutrients[key] || 0) * s;
+      }
       const newMeal: LoggedMeal = {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
         foodId: food.id,
         name: food.name,
-        serving: food.serving,
-        nutrients: { ...food.nutrients },
+        serving: `${s}× ${food.serving}`,
+        nutrients: scaledNutrients,
         timestamp: new Date().toLocaleTimeString(),
         cuisine: food.cuisine,
         mealType: food.mealType,

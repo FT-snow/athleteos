@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useMemo, useEffect, useRef } from "react"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 import { ArrowUp, Dumbbell, Apple, Moon, Activity, Brain } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useQuery } from "convex/react"
@@ -135,7 +137,9 @@ export function AICoachView() {
               {msg.role === "coach" && (
                 <span className="mb-1.5 inline-flex items-center gap-1 rounded-[4px] bg-[var(--teal-accent)]/15 px-1.5 py-0.5 text-[10px] font-medium text-[var(--teal-accent)]">AI</span>
               )}
-              <p>{msg.text}</p>
+              <div className="prose prose-invert prose-xs max-w-none [&_p]:text-sm [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:text-sm [&_strong]:text-[var(--teal-light)] [&_code]:bg-[rgba(255,255,255,0.06)] [&_code]:px-1 [&_code]:rounded-[2px] [&_code]:text-xs">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
+              </div>
             </div>
           </div>
         ))}
