@@ -4,7 +4,7 @@
 Performance Intelligence Platform
 Form Analysis · Recovery · Sleep · Nutrition · AI Coach
 
-Built at QuantumHack by Team Velox
+
 
 ---
 
