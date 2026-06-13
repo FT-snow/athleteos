@@ -157,16 +157,6 @@ The application reads configuration from environment variables at runtime. Requi
 | `NEXT_PUBLIC_CONVEX_URL` | Convex backend URL (public) |
 | `OPENROUTER_API_KEY` | API key for AI coach features |
 
-## About Public Repository Safety
-
-An audit of the repository was conducted to determine whether it is safe to make public:
-
-- **No secrets have ever been committed to git history.** All `.env` and `.env.local` files are excluded via `.gitignore` and have never been tracked.
-- **Source code uses `process.env.*` throughout** -- no hardcoded API keys, tokens, or credentials exist in any tracked file.
-- **The OpenRouter API key exists in local `.env.local` files on disk only**, which are properly gitignored. As a best practice, you should rotate this key before making the repository public.
-- **Convex deployment URLs** (`NEXT_PUBLIC_CONVEX_URL`) are designed to be public and are safe to expose.
-
-The repository can be made public without risk of credential exposure, provided `.gitignore` rules remain intact and no `.env` files are force-pushed.
 
 ## Scripts
 
