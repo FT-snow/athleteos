@@ -65,10 +65,8 @@ Nutrition: USDA FoodData Central API
 Anchal Singh - Full Stack + AI 
 Prakhar Upadhyay — Full Stack + AI
 
----
-
-Built at QuantumHack 2026
 =======
+
 # Athlete OS
 
 An AI-powered athlete management platform combining form analysis, nutrition tracking, recovery monitoring, and intelligent coaching into a unified dashboard.
